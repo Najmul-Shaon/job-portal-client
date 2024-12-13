@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 const AddJobs = () => {
   const handleAddJob = (e) => {
     e.preventDefault();
@@ -9,7 +11,30 @@ const AddJobs = () => {
     const { min, max, currency, ...newJOb } = initialData;
     console.log(min, max, currency, newJOb);
     newJOb.salarayRange = { min, max, currency };
+
+    newJOb.requirements = newJOb.requirements.split("\n");
+    newJOb.responsibility = newJOb.responsibility.split("\n");
     console.log(newJOb);
+
+    fetch("http://localhost:3000/jobs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      body: JSON.stringify(newJOb),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Job Added",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   };
 
   return (
@@ -48,12 +73,11 @@ const AddJobs = () => {
             <span className="label-text">Job Type</span>
           </label>
           <select
+            defaultValue={"Pick a job type"}
             name="jobType"
             className="select select-ghost w-full max-w-xs"
           >
-            <option disabled selected>
-              Pick a job type
-            </option>
+            <option disabled>Pick a job type</option>
             <option>On site</option>
             <option>Home/Remote</option>
             <option>Hybrid</option>
@@ -96,12 +120,11 @@ const AddJobs = () => {
               <span className="label-text">Currency</span>
             </label>
             <select
+              defaultValue={"Pick a Currency"}
               name="currency"
               className="select select-ghost w-full max-w-xs"
             >
-              <option disabled selected>
-                Pick a Currency
-              </option>
+              <option disabled>Pick a Currency</option>
               <option>BDT</option>
               <option>USD</option>
               <option>Euro</option>
