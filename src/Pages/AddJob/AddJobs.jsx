@@ -57,7 +57,7 @@ const AddJobs = () => {
         {/* job location  */}
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Location</span>
+            <span className="label-text">Locations</span>
           </label>
           <input
             type="text"
