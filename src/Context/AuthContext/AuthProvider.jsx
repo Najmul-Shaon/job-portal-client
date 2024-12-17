@@ -10,7 +10,7 @@ import auth from "../../Firebase/firebase.init";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  console.log("user", user);
+  // console.log("user", user);
   const [loading, setLoading] = useState(true);
 
   const createUser = (email, pass) => {
@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("state Capture of current user", currentUser);
+      // console.log("state Capture of current user", currentUser);
       setLoading(false);
     });
     return () => [unsubscribe()];

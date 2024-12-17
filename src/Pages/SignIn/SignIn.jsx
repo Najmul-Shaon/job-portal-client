@@ -3,6 +3,7 @@ import signInLottieData from "../../assets/Lottie/singIn.json";
 import { useContext } from "react";
 import AuthContext from "../../Context/AuthContext/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignIn = () => {
   const { signInUser } = useContext(AuthContext);
@@ -20,8 +21,12 @@ const SignIn = () => {
     const password = form.password.value;
     signInUser(email, password)
       .then((res) => {
-          console.log("signIn ", res.user);
-          navigate(from)
+        console.log("signIn ", res.user.email);
+        const user = { email: email };
+        axios.post("http://localhost:3000/jwt", user).then((res) => {
+          console.log(res.data);
+        });
+        // navigate(from);
       })
       .catch((error) => {
         console.log(error.message);
